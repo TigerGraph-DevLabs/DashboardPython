@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block content %}
+<div id="container" />
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.10/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
+<script>
+  const data = JSON.parse("{{ ListValues | tojson | safe}}");
+
+  const chart = new G2.Chart({
+    container: "container",
+    autoFit: true,
+    height: 500,
+  });
+  chart.data(data);
+  chart.axis("value", false);
+  chart.legend({
+    position: "right",
+  });
+  chart.tooltip({
+    shared: true,
+    showMarkers: false,
+  });
+  chart.interaction("active-region");
+  chart
+    .interval()
+    .adjust("stack")
+    .position("time*value")
+    .color("type", ["#40a9ff", "#1890ff", "#096dd9", "#0050b3"])
+    .label("value", (val) => {
+      if (val < 10) {
+        return null;
+      }
+      return {
+        position: "middle",
+        offset: 0,
+        content: (originData) => {
+          return originData.value + "%";
+        },
+        style: {
+          stroke: "#fff",
+        },
+      };
+    });
+  chart.render();
+</script>
+{% endblock content %}
