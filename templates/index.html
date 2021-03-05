@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <!--- BEGINING OF Content -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class="page-title red"><h2>Dashboard</h2></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home</a>
+                        </li>
+                        <li class="active">Dashboard</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <a href="#">
+                        <div class="banner-block red">
+                            <div class="block-content">
+                                <span class="banner-icon fa-stack fa-3x">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <div class="banner-content">
+                                    <div class="title">{{ Github.repoCount }}</div>
+                                    <div class="sub-title">Repos Count</div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <a href="#">
+                        <div class="banner-block yellow">
+                            <div class="block-content">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github-alt fa-stack-1x fa-inverse"></i>
+                            </span>
+                                <div class="banner-content">
+                                    <div class="title">{{ Github.repoUsers }}</div>
+                                    <div class="sub-title">Repo Users</div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <a href="#">
+                        <div class="banner-block green">
+                            <div class="block-content">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-star fa-stack-1x fa-inverse"></i>
+                            </span>
+                                <div class="banner-content">
+                                    <div class="title">{{ Github.repoStars }}</div>
+                                    <div class="sub-title">Repo Stars</div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <a href="#">
+                        <div class="banner-block blue">
+                            <div class="block-content">
+                                <span class="fa-stack fa-3x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+                            </span>
+                                <div class="banner-content">
+                                    <div class="title">{{ Github.repoOwners }}</div>
+                                    <div class="sub-title">Owners Count</div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-github"></i> Top Stared Repos </h3>
+                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Repo Name</th>
+                                    <th>Repo Owner</th>
+                                    <th>Repo URL</th>
+                                    <th>Repo Stars </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rep in RepoStarsList %}
+                                <tr>
+                                    <td>{{ rep.Name }}</td>
+                                    <td>{{ rep.Owner }}</td>
+                                    <td><a href="{{ rep.Url }}"> Link</a></td>
+                                    <td>{{ rep.StarCount }}</td>
+                                </tr>
+                                {% endfor %}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-users"></i> Top Active Users</h3>
+                        </div>
+                        <div class="panel-body no-padding">
+                            <ul class="message-list">
+                                {% for user in UserStarsList %}
+                                <a href="#">
+                                    <li>
+                                        <img src="{{ user.avatar }}" class="profile-img pull-left">
+                                        <div class="message-block">
+                                            <div><span class="username">{{ user.nameUser }}</span> <span class="message-datetime"><a href="{{ user.idUser }}">Link</a></span>
+                                            </div>
+                                            <div class="message">{{ user.valueStars }}</div>
+                                        </div>
+
+                                    </li>
+                                </a>
+                                {% endfor %}
+                               
+                                <!-- <a href="#" id="message-load-more">
+                                    <li class="text-center load-more">
+                                        <i class="fa fa-refresh"></i> load more..
+                                    </li>
+                                </a> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="banner-block white">
+                        <div class="block-content">
+                            <div class="block-title">Orders</div>
+                            <canvas id="dashboard-order-chart" style="padding:10px 30px 10px 10px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="banner-block white">
+                        <div class="block-content">
+                            <div class="block-title">Stats</div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <canvas id="dashboard-stat-chart" style="padding:10px 30px 10px 10px;"></canvas>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div id="dashboard-stat-chart-legend" class="pie-legend"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <!--- END  Content -->
+        {% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <!--- BEGINING OF Content -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class="page-title red"><h3>Unknown Intents ? ( AkA your questions ;) )</h3></span>
+                </div>
+            </div>
+
+           
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="content-block">
+                        <div class="block-title">Content By {{ ids }} using signal Channel</div>
+                        <div class="block-content">
+                            <!-- <input type="text" name="intent" >
+                            <input type="text" name="intents" >
+                            <input type="text" name="intentq" > -->
+
+
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                            <form method="GET" action="http://127.0.0.1:5000/adds">
+                            <label>ID : </label><br>
+                            <input type="text" name="ids" class="fname"  readonly="readonly" value="{{ ids }}" />
+                            <br>
+                            <label>Intent</label><br>
+                            <input type="text" name="intent" class="fname" />
+                            <br>
+                            <label>NLU : </label>
+                            <table id="myTable" style="border: 1px solid black">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="NLU" class="fname" />
+                                    </td>
+                                    <td>
+                                        <input type="button" value="Delete" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="NLU" class="fname" />
+                                    </td>
+                                    <td>
+                                        <input type="button" value="Delete" />
+                                    </td>
+                                </tr>
+                              
+                            </table>
+                            <p>
+                                <input type="button"  id="de1" value="Insert row">
+                            </p>
+
+                            <label>Response : </label>
+                            <table id="myTable2" style="border: 1px solid black">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="STORY" class="fname" />
+                                    </td>
+                                    <td>
+                                        <input type="button" value="Delete" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="STORY" class="fname" />
+                                    </td>
+                                    <td>
+                                        <input type="button" value="Delete" />
+                                    </td>
+                                </tr>
+                             
+                            </table>
+                            <p>
+                                <input type="button" id="de2" value="Insert row">
+                            </p>
+                            <button type="submit">Valid</button>
+                        </form>
+                            <!-- sqd -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script type="text/javascript">
+    $(function() {
+        $('#myTable').on('click', 'input[type="button"]', function () {
+            $(this).closest('tr').remove();
+        })
+        $('p input[id="de1"]').click(function () {
+            $('#myTable').append('<tr><td><input type="text" class="fname" /></td><td><input type="button" value="Delete" /></td></tr>')
+        });
+        $('#myTable2').on('click', 'input[type="button"]', function () {
+            $(this).closest('tr').remove();
+        })
+        $('p input[id="de2"]').click(function () {
+            $('#myTable2').append('<tr><td><input type="text" class="fname" /></td><td><input type="button" value="Delete" /></td></tr>')
+        });
+    });
+    </script>
+   <!--- END  Content -->
+   {% endblock %}
