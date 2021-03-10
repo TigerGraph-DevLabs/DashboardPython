@@ -88,7 +88,7 @@ def testChartAnt():
 @app.route('/pie')
 def testPieAnt():
    
-    return render_template('pie.html')
+    return render_template('/G6/LargeGraph.html')
 
 @app.route('/intents')
 def intents():
