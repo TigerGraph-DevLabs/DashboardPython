@@ -1,0 +1,70 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div id="container" />
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.10/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
+<script src="https://unpkg.com/@antv/g6@4.2.0/dist/g6.min.js"></script>
+<!-- <script src="https://unpkg.com/insert-css@2.0.0/index.js"></script> -->
+<script src="https://unpkg.com/@antv/util@2.0.13/lib/index.js"></script>
+<script>
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
+const graph = new G6.Graph({
+  container: 'container',
+  width,
+  height,
+  layout: {
+    type: 'force',
+  },
+  defaultNode: {
+    size: 15,
+  },
+});
+
+fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
+  .then((res) => res.json())
+  .then((data) => {
+    graph.data({
+      nodes: data.nodes,
+      edges: data.edges.map(function (edge, i) {
+        edge.id = 'edge' + i;
+        return Object.assign({}, edge);
+      }),
+    });
+    graph.render();
+
+    const forceLayout = graph.get('layoutController').layoutMethod;
+    graph.on('node:dragstart', function (e) {
+      graph.layout();
+      refreshDragedNodePosition(e);
+    });
+    graph.on('node:drag', function (e) {
+      forceLayout.execute();
+      refreshDragedNodePosition(e);
+    });
+    graph.on('node:dragend', function (e) {
+      e.item.get('model').fx = null;
+      e.item.get('model').fy = null;
+    });
+
+    if (typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.get('destroyed')) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.changeSize(container.scrollWidth, container.scrollHeight);
+      };
+  });
+
+function refreshDragedNodePosition(e) {
+  const model = e.item.get('model');
+  model.fx = e.x;
+  model.fy = e.y;
+}
+
+
+</script>
+
+{% endblock content %}
