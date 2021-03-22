@@ -107,6 +107,11 @@ footer {
     padding: 0;
     margin: 0;
 }
+
+.sidebar ul.menu  .dropdown-container{
+    display: none;
+}
+
 .sidebar ul.menu li {
     height: 50px;
 }
@@ -133,6 +138,7 @@ footer {
 .margin-bottom-2x {
     margin-bottom: 16px;
 }
+
 
 /*
 Navbar
@@ -360,30 +366,44 @@ Table
     margin: 0;
     text-align: right;
     width: 100%;
-    background-color:
+    /* background-color: */
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    background-color: white;
 }
 /*
 Pagination
 */
 
-ul.pagination {
-    margin: 0;
+/* ul.pagination {
+    margin: 0px 1px;
     padding: 0;
 }
 ul.pagination > li a {
-    border: 1px solid #FFF;
+    border: 1px solid #979797;
     border-radius: 0;
-    background-color: #FCFCFC;
-    font-size: 11px;
+    background-color: #eee;
+    font-size: 15px;
 }
-ul.pagination > li:hover a, ul.pagination > li.disabled:hover a, ul.pagination > li.active:hover a {
-    border: 1px solid #FFF;
+ul.pagination > li:hover a, ul.pagination > li.disabled:hover a {
+    border: 1px solid #ddd;
+    background-color: #ddd;
 }
-ul.pagination > li.active a, ul.pagination > li.disabled a {
-    border: 1px solid #FFF;
+ul.pagination > li.active:hover a {
+    border: 1px solid #ddd;
+}
+ul.pagination > li.active a  {
+    border: 1px solid #979797;
     border-radius: 0;
-    background-color: #FCFCFC;
+    background-color: #337ab7;
 }
+ul.pagination > li.disabled a {
+    border: 1px solid #979797;
+    border-radius: 0;
+    background-color: #eee;
+    font-size: 15px;
+} */
 /*
 Button
 */
@@ -698,7 +718,7 @@ ul.message-list .profile-img {
     height: 60px;
 }
 ul.message-list .message-block .username {
-    font-size: 12px;
+    font-size: 20px;
     font-weight: bold;
 }
 ul.message-list .message-block .message-datetime {
@@ -706,7 +726,7 @@ ul.message-list .message-block .message-datetime {
     color: #AAA;
 }
 ul.message-list .message-block .message {
-    font-size: 12px;
+    font-size: 15px;
 }
 ul.message-list .load-more {
     padding: 8px;

@@ -1,0 +1,349 @@
+{% extends "base.html" %} {% block content %}
+<!--- BEGINING OF Content -->
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.10/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <span class="page-title red"><h2>Community 360 - Overview</h2></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <a href="/communityUsers">
+        <div class="banner-block grey">
+          <div class="block-content">
+            <span class="banner-icon fa-stack fa-3x">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+            </span>
+            <div class="banner-content">
+              <div class="sub-title">Total Users</div>
+              <div class="title">{{ stats['user_count'] }}</div>
+            </div>
+            <div class="clear-both"></div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="banner-block light-green">
+        <div class="block-content">
+          <span class="fa-stack fa-3x">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-file-text fa-stack-1x fa-inverse"></i>
+          </span>
+          <div class="banner-content">
+            <div class="sub-title">Total Posts</div>
+            <div class="title" id="post_count">{{ stats['post_count'] }}</div>
+          </div>
+          <div class="clear-both"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="banner-block green">
+        <div class="block-content">
+          <span class="fa-stack fa-3x">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
+          </span>
+          <div class="banner-content">
+            <div class="sub-title">Total Topics</div>
+            <div class="title" id="post_count">{{ stats['topic_count'] }}</div>
+          </div>
+          <div class="clear-both"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="banner-block blue">
+        <div class="block-content">
+          <span class="fa-stack fa-3x">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-heart fa-stack-1x fa-inverse"></i>
+          </span>
+          <div class="banner-content">
+            <div class="sub-title">Total Likes</div>
+            <div class="title" id="post_count">{{ stats['like_count'] }}</div>
+          </div>
+          <div class="clear-both"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-24">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h2 class="panel-title">
+            <i class="fa fa-binoculars"></i> Pageview Metrics
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+      <input
+        type="text"
+        name="daterange"
+        value="02/15/2021 - 03/15/2021"
+        style="width: 100%"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div id="pageview-graph-container"></div>
+  </div>  
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <h3 style="padding-right: 40px;">Signups</h3>
+        <div id="signups-graph-container"></div>
+    </div> 
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <h3>Posts</h3>
+        <div id="posts-graph-container"></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <h3>Topics</h3>
+        <div id="topics-graph-container"></div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <h3>Likes</h3>
+        <div id="likes-graph-container"></div>
+    </div>
+  </div>  
+</div>
+<script type="text/javascript">
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  $("#post_count").text(numberWithCommas(parseInt($("#post_count").text())));
+
+  const pageview_chart = new G2.Chart({
+      container: "pageview-graph-container",
+      autoFit: true,
+      height: 500,
+    });
+    pageview_chart.scale({
+    views: {
+        max: 3500,
+        tickInterval: 500,
+        nice: true,
+        },
+    });
+    pageview_chart.tooltip({
+      showMarkers: false,
+    });
+    pageview_chart.interval().position('date*views').color("type").adjust("stack");
+    pageview_chart.interaction("element-highlight-by-color");
+    pageview_chart.legend({
+        position: "top",
+    });
+
+    const signup_chart = new G2.Chart({
+      container: "signups-graph-container",
+      autoFit: true,
+      height: 500,
+      padding: [20, 40, 20, 40],
+    });
+
+    signup_chart.scale({
+        date: {
+            range: [0, 1],
+        },
+        signups: {
+            min: 0,
+            nice: true,
+        },
+    });
+
+    // signup_chart.tooltip({
+    //     shared: true,
+    // });
+
+    signup_chart.line().position('date*signups').label('signups');
+    signup_chart.point().position('date*signups');
+
+    const post_chart = new G2.Chart({
+      container: "posts-graph-container",
+      autoFit: true,
+      height: 500,
+      padding: [20, 40, 20, 40],
+    });
+
+    post_chart.scale({
+        date: {
+            range: [0, 1],
+        },
+        posts: {
+            min: 0,
+            nice: true,
+        },
+    });
+
+    post_chart.tooltip({
+        shared: true,
+    });
+
+    post_chart.line().position('date*posts').label('posts');
+    post_chart.point().position('date*posts');
+
+    const topic_chart = new G2.Chart({
+      container: "topics-graph-container",
+      autoFit: true,
+      height: 500,
+      padding: [20, 40, 20, 40],
+    });
+    topic_chart.scale({
+        date: {
+            range: [0, 1],
+        },
+        topics: {
+            min: 0,
+            nice: true,
+        },
+    });
+
+    topic_chart.tooltip({
+        shared: true,
+    });
+
+    topic_chart.line().position('date*topics').label('topics');
+    topic_chart.point().position('date*topics');
+
+    const like_chart = new G2.Chart({
+      container: "likes-graph-container",
+      autoFit: true,
+      height: 500,
+      padding: [20, 40, 20, 40],
+    });
+    like_chart.scale({
+        date: {
+            range: [0, 1],
+        },
+        likes: {
+            min: 0,
+            nice: true,
+        },
+    });
+
+    like_chart.tooltip({
+        shared: true,
+    });
+
+    like_chart.line().position('date*likes').label('likes');
+    like_chart.point().position('date*likes');
+
+
+  function renderCharts(data) {
+    var pageview_data = []
+    var signup_data = []
+    var post_data = []
+    var topic_data = []
+    var like_data = []
+
+    for (viewType of data['pageviews']) {
+        for (date of viewType["data"]) {
+            pageview_data.push({date: date['x'], views: date['y'], type: viewType['label']})
+        }
+    }
+    
+    for (date of data['signups']) {
+        signup_data.push({date: date['x'], signups: date['y']})
+    }
+
+    for (date of data['posts']) {
+        post_data.push({date: date['x'], posts: date['y']})
+    }
+
+    for (date of data['topics']) {
+        topic_data.push({date: date['x'], topics: date['y']})
+    }
+
+    for (date of data['likes']) {
+        like_data.push({date: date['x'], likes: date['y']})
+    }
+
+    pageview_chart.data(pageview_data);
+    pageview_chart.render();
+
+    signup_chart.data(signup_data);
+    signup_chart.forceFit();
+    signup_chart.render();
+
+    post_chart.data(post_data);
+    post_chart.render();
+
+    topic_chart.data(topic_data);
+    topic_chart.render();
+
+    like_chart.data(like_data);
+    like_chart.render();
+  }
+
+  $(function () {
+    $('input[name="daterange"]').daterangepicker(
+      {
+        opens: "left",
+        startDate: "02/15/2021",
+        endDate: "03/15/2021"
+      },
+      function (start, end, label) {
+        console.log(
+          "A new date selection was made: " +
+            start.format("YYYY-MM-DD") +
+            " to " +
+            end.format("YYYY-MM-DD")
+        );
+        $.ajax({
+          type: "POST",
+          url: "/community/fetch/",
+          data: JSON.stringify({
+            data:
+              "start_date=" +
+              start.format("YYYY-MM-DD") +
+              "&end_date=" +
+              end.format("YYYY-MM-DD"),
+          }),
+          contentType: "application/json;charset=UTF-8",
+          success: function (data) {
+            renderCharts(data);
+          },
+        });
+    });
+    var drp = $('input[name="daterange"]').data('daterangepicker');
+    $.ajax({
+        type: "POST",
+        url: "/community/fetch/",
+        data: JSON.stringify({
+        data:
+            "start_date=" +
+            drp.startDate.format("YYYY-MM-DD") +
+            "&end_date=" +
+            drp.endDate.format("YYYY-MM-DD"),
+        }),
+        contentType: "application/json;charset=UTF-8",
+        success: function (data) {
+            // console.log(data);
+            renderCharts(data);
+        },
+    });
+  });
+</script>
+<!--- END  Content -->
+{% endblock %}

@@ -46,6 +46,14 @@ body.flat-blue {
 	background-color: rgba(0,0,0,0.1);
 }
 
+.flat-blue .sidebar ul.menu > li.submenu-dropdown.active {
+    background-color: rgb(64, 67, 82);
+}
+
+.flat-blue .sidebar ul.menu > div li:hover {
+	background-color: rgba(0,0,0,0.2);
+}
+
 .flat-blue .sidebar ul.menu li a.active div {
 	background-color: #EEEEEE;
 	color:#3E4651;
@@ -308,6 +316,36 @@ Block Color
 }
 .flat-blue .banner-block.blue .fa-stack .fa.fa-inverse {
 	color: #22A7F0;
+}
+
+.flat-blue .banner-block.grey {
+	background-color: #909ba3;
+}
+
+.flat-blue .banner-block.grey:hover {
+	background-color: #5f6970;
+}
+
+.flat-blue .banner-block.grey:hover .fa-stack .fa.fa-inverse {
+	color: #5f6970;
+}
+.flat-blue .banner-block.grey .fa-stack .fa.fa-inverse {
+	color: #909ba3;
+}
+
+.flat-blue .banner-block.light-green {
+	background-color: #65c2ab;
+}
+
+.flat-blue .banner-block.light-green:hover {
+	background-color: #169385;
+}
+
+.flat-blue .banner-block.light-green:hover .fa-stack .fa.fa-inverse {
+	color: #169385;
+}
+.flat-blue .banner-block.light-green .fa-stack .fa.fa-inverse {
+	color: #91C9BB;
 }
 
 .flat-blue .banner-block .block-content > .banner-content > .title {
