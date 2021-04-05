@@ -1,7 +1,7 @@
 # DashboardPython
 
 
-DashboardPython is a all-in-one dashboard for visualizing community metrics. The framework can be coupled with specific data to create a comprehensive analysis of any community. 
+DashboardPython is a all-in-one dashboard for visualizing community metrics. The framework can be coupled with any data to create a comprehensive visualization and analysis. 
 
 For more information, check out our [wiki](https://github.com/TigerGraph-OSS/DashboardPython/wiki).
 
