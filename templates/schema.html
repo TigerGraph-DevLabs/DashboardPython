@@ -1,0 +1,508 @@
+{% extends "base.html" %} {% block content %}
+<div id="container" />
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="https://unpkg.com/@antv/x6@1.17.7/dist/x6.js"></script>
+<script>
+  const graph = new X6.Graph({
+    container: document.getElementById("container"),
+    // grid: true,
+    height: 800,
+  });
+
+  graph.addNode({
+    shape: "circle",
+    id: "User",
+    x: 700,
+    y: 300,
+    width: 60,
+    height: 60,
+    label: "User",
+    attrs: {
+      body: {
+        fill: "#efdbff",
+        stroke: "#9254de",
+      },
+    },
+  });
+
+  graph.addNode({
+    shape: "circle",
+    id: "Post",
+    x: 300,
+    y: 20,
+    width: 60,
+    height: 60,
+    label: "Post",
+    attrs: {
+      body: {
+        fill: "#efdbff",
+        stroke: "#9254de",
+      },
+    },
+  });
+  graph.addNode({
+    shape: "circle",
+    id: "Topic",
+    x: 700,
+    y: 40,
+    width: 60,
+    height: 60,
+    label: "Topic",
+    attrs: {
+      body: {
+        fill: "#efdbff",
+        stroke: "#9254de",
+      },
+    },
+  });
+  graph.addNode({
+    shape: "circle",
+    id: "Pageview",
+    x: 800,
+    y: 200,
+    width: 60,
+    height: 60,
+    label: "Pageview",
+    attrs: {
+      body: {
+        fill: "#efdbff",
+        stroke: "#9254de",
+      },
+    },
+  });
+//   graph.addNode({
+//     shape: "circle",
+//     id: "Signups",
+//     x: 300,
+//     y: 300,
+//     width: 60,
+//     height: 60,
+//     label: "Signups",
+//     attrs: {
+//       body: {
+//         fill: "#efdbff",
+//         stroke: "#9254de",
+//       },
+//     },
+//   });
+
+  graph.addEdge({
+    source: "User",
+    target: "Post",
+    label: "USER_POST",
+    vertices: [
+        {x: 80, y:40},
+    ],
+    attrs: {
+      line: {
+        targetMarker: "classic",
+        stroke: "#f5222d",
+      },
+    },
+  });
+  graph.addEdge({
+    source: "User",
+    target: "Post",
+    label: "USER_LIKE",
+    attrs: {
+      line: {
+        targetMarker: "classic",
+        stroke: "#f5222d",
+      },
+    },
+  });
+  graph.addEdge({
+    source: "Post",
+    target: "Topic",
+    label: "POST_HAS_TOPIC",
+    attrs: {
+      line: {
+        targetMarker: "classic",
+        stroke: "#f5222d",
+      },
+    },
+  });
+//   graph.addEdge({
+//     source: "User",
+//     target: "Signups",
+//     label: "USER_SIGNUP",
+//     attrs: {
+//       line: {
+//         targetMarker: "classic",
+//         stroke: "#f5222d",
+//       },
+//     },
+//   });
+X6.Graph.registerNode(
+  'user-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'User',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        text: '\n *id\n*username\n*name\n*signup date\n*trust level\n*title\n*posts read\n*topics entered\n*posts created\n*days visited \n*active?',
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+X6.Graph.registerNode(
+  'topic-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'Topic',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        text: '\n *id\n*description\n*count',
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+X6.Graph.registerNode(
+  'pageview-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'Pageview',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        text: '\n *id\n*date\n*crawler views\n*anonymous views\n*user views',
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+X6.Graph.registerNode(
+  'post-topic-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'POST_HAS_TOPIC',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+X6.Graph.registerNode(
+  'user-like-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'USER_LIKE',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        text: '\n *post date',
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+X6.Graph.registerNode(
+  'user-post-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'USER_POST',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        text: '\n *date',
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+X6.Graph.registerNode(
+  'post-desc',
+  {
+    width: 200,
+    height: 60,
+    attrs: {
+      title: {
+        text: 'Post',
+        refX: 40,
+        refY: 14,
+        fill: 'rgba(0,0,0,0.85)',
+        fontSize: 20,
+        'text-anchor': 'start',
+      },
+      text: {
+        text: '\n *id\n*title',
+        refX: 40,
+        refY: 38,
+        fontSize: 15,
+        fill: 'rgba(0,0,0,0.6)',
+        'text-anchor': 'start',
+      },
+    },
+    markup: [
+      {
+        tagName: 'text',
+        selector: 'title',
+      },
+      {
+        tagName: 'text',
+        selector: 'text',
+      },
+    ],
+  },
+  true,
+)
+//User rectangle
+graph.addNode({
+  x: 920,
+  y: 30,
+  width: 160,
+  height: 230,
+  attrs: {
+    body: {
+      fill: '#efdbff',
+      stroke: '#9254de',
+    },
+  },
+})
+//User Info
+graph.addNode({
+  x: 900,
+  y: 30,
+  shape: 'user-desc',
+})
+//Post Rectangle
+graph.addNode({
+  x: 1120,
+  y: 30,
+  width: 160,
+  height: 100,
+  attrs: {
+    body: {
+      fill: '#efdbff',
+      stroke: '#9254de',
+    },
+  },
+})
+//Post Info
+graph.addNode({
+  x: 1100,
+  y: 30,
+  shape: 'post-desc',
+})
+//Topic Rectangle
+graph.addNode({
+  x: 1120,
+  y: 160,
+  width: 160,
+  height: 100,
+  attrs: {
+    body: {
+      fill: '#efdbff',
+      stroke: '#9254de',
+    },
+  },
+})
+//Topic Info
+graph.addNode({
+  x: 1100,
+  y: 160,
+  shape: 'topic-desc',
+})
+
+//Pageview Rectangle
+graph.addNode({
+  x: 1320,
+  y: 30,
+  width: 160,
+  height: 230,
+  attrs: {
+    body: {
+      fill: '#efdbff',
+      stroke: '#9254de',
+    },
+  },
+})
+//Pageview Info
+graph.addNode({
+  x: 1300,
+  y: 30,
+  shape: 'pageview-desc',
+})
+
+//User-Like Rectangle
+graph.addNode({
+  x: 920,
+  y: 320,
+  width: 160,
+  height: 100,
+  attrs: {
+    body: {
+      fill: '#efdbff',
+      stroke: '#9254de',
+    },
+  },
+})
+//User-Like Info
+graph.addNode({
+  x: 900,
+  y: 320,
+  shape: 'user-like-desc',
+})
+
+//User-Post Rectangle
+graph.addNode({
+  x: 1120,
+  y: 320,
+  width: 160,
+  height: 100,
+  attrs: {
+    body: {
+      fill: '#efdbff',
+      stroke: '#9254de',
+    },
+  },
+})
+//User-Post Info
+graph.addNode({
+  x: 1100,
+  y: 320,
+  shape: 'user-post-desc',
+})
+
+
+
+</script>
+{% endblock content %}

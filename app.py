@@ -96,6 +96,10 @@ def testChartAnt():
     print(varList)
     return render_template('chart.html',ListValues=varList)
 
+@app.route('/schema')
+def showSchema():
+   
+    return render_template('schema.html')
 
 @app.route('/pie')
 def testPieAnt():
