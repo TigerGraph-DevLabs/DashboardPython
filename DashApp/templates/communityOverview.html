@@ -1,20 +1,11 @@
 {% extends "base.html" %} {% block content %}
 <!--- BEGINING OF Content -->
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
-></script>
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
-></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script  type="text/javascript"  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.10/dist/g2.min.js"></script>
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-/>
+<link  rel="stylesheet"  type="text/css"  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
@@ -156,9 +147,13 @@
     });
 
     const signup_chart = new G2.Chart({
+       renderer: 'svg',
+       forceFit: true,
+
       container: "signups-graph-container",
+
       autoFit: true,
-      height: 500,
+      height: 200,
       padding: [20, 40, 20, 40],
     });
 
@@ -176,13 +171,13 @@
     //     shared: true,
     // });
 
-    signup_chart.line().position('date*signups').label('signups');
+    signup_chart.line().position('date*signups');  //.label('signups')
     signup_chart.point().position('date*signups');
 
     const post_chart = new G2.Chart({
       container: "posts-graph-container",
       autoFit: true,
-      height: 500,
+      height: 200,
       padding: [20, 40, 20, 40],
     });
 
@@ -200,13 +195,13 @@
         shared: true,
     });
 
-    post_chart.line().position('date*posts').label('posts');
+    post_chart.line().position('date*posts'); //.label('posts');
     post_chart.point().position('date*posts');
 
     const topic_chart = new G2.Chart({
       container: "topics-graph-container",
       autoFit: true,
-      height: 500,
+      height: 200,
       padding: [20, 40, 20, 40],
     });
     topic_chart.scale({
@@ -223,13 +218,13 @@
         shared: true,
     });
 
-    topic_chart.line().position('date*topics').label('topics');
+    topic_chart.line().position('date*topics'); //.label('topics');
     topic_chart.point().position('date*topics');
 
     const like_chart = new G2.Chart({
       container: "likes-graph-container",
       autoFit: true,
-      height: 500,
+      height: 200,
       padding: [20, 40, 20, 40],
     });
     like_chart.scale({
@@ -246,7 +241,7 @@
         shared: true,
     });
 
-    like_chart.line().position('date*likes').label('likes');
+    like_chart.line().position('date*likes'); //.label('likes');
     like_chart.point().position('date*likes');
 
 
@@ -312,7 +307,7 @@
         );
         $.ajax({
           type: "POST",
-          url: "/community/fetch/",
+          url: "/discourse/fetch/",
           data: JSON.stringify({
             data:
               "start_date=" +
@@ -329,7 +324,7 @@
     var drp = $('input[name="daterange"]').data('daterangepicker');
     $.ajax({
         type: "POST",
-        url: "/community/fetch/",
+        url: "/discourse/fetch/",
         data: JSON.stringify({
         data:
             "start_date=" +
